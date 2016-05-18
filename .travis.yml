@@ -1,0 +1,55 @@
+language: c++
+sudo: required
+
+matrix:
+  include:
+    - os: linux
+      env: COMPILER_NAME=clang CXX=clang++-3.7 CC=clang-3.7
+      compiler: clang
+      before_install:
+        - export CC=clang-3.7
+        - export CXX=clang++-3.7
+        - sudo pip install codecov
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.7
+          packages:
+            - clang-3.7
+            - g++-5
+    - os: linux
+      env: COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
+      compiler: gcc
+      before_install:
+        - export CC=gcc-5
+        - export CXX=g++-5
+        - sudo pip install codecov
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+
+cache:
+  apt: true
+
+script:
+  - cmake --version
+  - $CC --version
+  - $CXX --version
+  - mkdir build
+  - cd build
+  - cmake .. && make
+  - ./cpp_test
+  - ls -al
+  - ls ../*
+  - gcov main.cpp 
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+  email: true
+

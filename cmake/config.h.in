@@ -1,0 +1,2 @@
+#define VERSION_NUMBER @VERSION_NUMBER@
+#define @PLATFORM@
