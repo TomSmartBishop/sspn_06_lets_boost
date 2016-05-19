@@ -1,2 +1,7 @@
+#ifndef __CONFIG_H_
+#define __CONFIG_H_
+
 #define VERSION_NUMBER @VERSION_NUMBER@
 #define @PLATFORM@
+
+#endif // __CONFIG_H_

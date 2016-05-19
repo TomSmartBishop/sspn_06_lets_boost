@@ -25,9 +25,11 @@ using std::string;
 
 namespace po = boost::program_options;
 
-//our samples
+//our sample prototypes
 auto any_sample() -> void;
+auto variant_sample() -> void;
 auto lexical_cast_sample() -> void;
+auto signals2_sample() -> void;
 
 auto main(int argc, char * argv[]) -> int //the C++ standard defines that the return type of main has to be int
 {
@@ -47,7 +49,7 @@ auto main(int argc, char * argv[]) -> int //the C++ standard defines that the re
 
 		("sample,s",	po::value<vector<string>>()->multitoken()->value_name("SAMPLE"),
 		 "Run one or more of the following boost samples:\n"
-		 "lexical_cast, signals2, sort, any")
+		 "lexical_cast, signals2, sort, any, variant")
 	;
 
 	if (argc == 1)
@@ -71,20 +73,29 @@ auto main(int argc, char * argv[]) -> int //the C++ standard defines that the re
 		cout << desc << "\n"; 
 		return 0;
 	}
-
-	if (vm.count("display-int")) {
+	else if (vm.count("display-int")) {
 		cout << "You set the number to "  << int_val << ".\n";
 	}
-
-	if(vm.count("sample"))
+	else if (vm.count("sample"))
+	{
 		for (const auto& sample : vm["sample"].as<vector<string>>())
 		{
 			if (sample == "any")
 				any_sample();
+			else if (sample == "variant")
+				variant_sample();
 			else if (sample == "lexical_cast")
 				lexical_cast_sample();
+			else if (sample == "signals2")
+				signals2_sample();
+			else
+				cout << "Unknown sample <" << sample << ">.\n";
 		}
-
+	}
+	else
+	{
+		cout << "<Unknown option>\n" << desc << "\n";
+	}
 
 	return 0;
 }

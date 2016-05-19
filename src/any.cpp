@@ -10,6 +10,8 @@ using std::int32_t;
 
 auto any_sample() -> void
 {
+	cout << "<Any Sample>\n";
+
 	vector<boost::any> many;
 	many.reserve(6);
 
@@ -25,7 +27,7 @@ auto any_sample() -> void
 	{
 		if (val.type() == typeid(int32_t))
 		{
-			cout << "int32_t: " << boost::any_cast<int32_t>(val) << "\n";
+			cout << "std::int32_t: " << boost::any_cast<int32_t>(val) << "\n";
 		}
 		else if (val.type() == typeid(const char *))
 		{
