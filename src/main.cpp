@@ -30,6 +30,8 @@ auto any_sample() -> void;
 auto variant_sample() -> void;
 auto lexical_cast_sample() -> void;
 auto signals2_sample() -> void;
+auto serialization_sample() -> void;
+auto compute_sample() -> void;
 
 auto main(int argc, char * argv[]) -> int //the C++ standard defines that the return type of main has to be int
 {
@@ -49,7 +51,7 @@ auto main(int argc, char * argv[]) -> int //the C++ standard defines that the re
 
 		("sample,s",	po::value<vector<string>>()->multitoken()->value_name("SAMPLE"),
 		 "Run one or more of the following boost samples:\n"
-		 "lexical_cast, signals2, sort, any, variant")
+		 "lexical_cast, signals2, serialization, any, variant, compute")
 	;
 
 	if (argc == 1)
@@ -88,6 +90,10 @@ auto main(int argc, char * argv[]) -> int //the C++ standard defines that the re
 				lexical_cast_sample();
 			else if (sample == "signals2")
 				signals2_sample();
+			else if (sample == "serialization")
+				serialization_sample();
+			else if (sample == "compute")
+				compute_sample();
 			else
 				cout << "Unknown sample <" << sample << ">.\n";
 		}

@@ -22,7 +22,7 @@ source_group ("src" FILES ${SOURCES})
 set(Boost_USE_STATIC_LIBS 		ON) 
 set(Boost_USE_MULTITHREADED 	ON)  
 set(Boost_USE_STATIC_RUNTIME 	OFF) 
-find_package(Boost 1.61.0 COMPONENTS program_options) 
+find_package(Boost 1.61.0 COMPONENTS program_options date_time serialization) 
 
 if(Boost_FOUND)
 	set (VERSION_NUMBER 0.1)
