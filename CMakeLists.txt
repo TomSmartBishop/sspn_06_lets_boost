@@ -22,9 +22,13 @@ source_group ("src" FILES ${SOURCES})
 set(Boost_USE_STATIC_LIBS 		ON) 
 set(Boost_USE_MULTITHREADED 	ON)  
 set(Boost_USE_STATIC_RUNTIME 	OFF) 
-find_package(Boost 1.61.0 COMPONENTS program_options date_time serialization) 
+find_package(Boost 1.61.0 COMPONENTS program_options date_time serialization chrono) 
+find_package(OpenCL REQUIRED)
 
-if(Boost_FOUND)
+INCLUDE_DIRECTORIES(${OpenCL_INCLUDE_DIRS}) 
+
+LINK_DIRECTORIES(${OpenCL_LIBRARY})
+if(Boost_FOUND AND OpenCL_FOUND)
 	set (VERSION_NUMBER 0.1)
 
 	if (WIN32)
@@ -38,9 +42,14 @@ if(Boost_FOUND)
 	  "${PROJECT_SOURCE_DIR}/src/generated/config.h"
 	)
 
-    include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+    include_directories(SYSTEM ${Boost_INCLUDE_DIRS} ${OpenCL_INCLUDE_DIRS})
 	add_executable(lets_boost ${SOURCES} ${TEST_SOURCES})
-    target_link_libraries(lets_boost ${Boost_LIBRARIES})
+    target_link_libraries(lets_boost ${Boost_LIBRARIES} ${OpenCL_LIBRARIES})
+	
+	message ("-- Using OpenCL: " ${OpenCL_VERSION_STRING})
+
+elseif(NOT OpenCL_FOUND)
+    error("Could not find opencl")
 else()
 	error("Could not find boost")
 endif()

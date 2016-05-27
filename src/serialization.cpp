@@ -10,7 +10,7 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
-//needed if you want to serialize the date object
+// needed if you want to serialize the date object
 #include <boost/date_time/gregorian/greg_serialize.hpp>
 #include <boost/date_time/gregorian/gregorian.hpp>
 
@@ -24,11 +24,11 @@ class sspn_member {
   friend class boost::serialization::access;
 
   template <class Archive>
-  void serialize(Archive &ar, const unsigned int version) {
-    ar &full_name;
-    ar &birthday;
-    ar &first_timer;
-    ar &num_attended_meetups;
+  void serialize(Archive& ar, const unsigned int version) {
+    ar& full_name;
+    ar& birthday;
+    ar& first_timer;
+    ar& num_attended_meetups;
   }
 
  public:
@@ -38,7 +38,7 @@ class sspn_member {
   bool first_timer;
   uint16_t num_attended_meetups;
 
-  friend std::ostream &operator<<(std::ostream &stream, const sspn_member &m) {
+  friend std::ostream& operator<<(std::ostream& stream, const sspn_member& m) {
     stream << m.full_name << ", born on " << m.birthday;
 
     if (m.first_timer)
@@ -84,11 +84,12 @@ class sspn {
   boost::gregorian::date founded;
   std::vector<sspn_member> members;
 
-  friend std::ostream &operator<<(std::ostream &stream, const sspn &s) {
+  friend std::ostream& operator<<(std::ostream& stream, const sspn& s) {
     stream << s.official_name << ", founded " << s.founded << ", "
            << s.members.size() << " members:\n";
 
-    for (const auto &m : s.members) stream << m << "\n";
+    for (const auto& m : s.members)
+      stream << m << "\n";
 
     return stream;
   }
@@ -99,10 +100,10 @@ namespace boost {
 namespace serialization {
 
 template <class Archive>
-void serialize(Archive &ar, sspn &s, const unsigned int version) {
-  ar &s.official_name;
-  ar &s.founded;
-  ar &s.members;
+void serialize(Archive& ar, sspn& s, const unsigned int version) {
+  ar& s.official_name;
+  ar& s.founded;
+  ar& s.members;
 }
 
 }  // namespace serialization
