@@ -49,7 +49,7 @@ auto compute_sample1() -> void {
     }
   }
 
-  cout << "\nLet's better use " << device.name()
+  cout << "\nLet's use " << device.name()
        << "\n"; // of course this could just output the same again
 
   bc::context context(device);

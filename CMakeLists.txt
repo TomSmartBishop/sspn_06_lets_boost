@@ -3,11 +3,29 @@ project(lets_boost)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON) # For VS to organize the project in folders
 
-# We need C++14
+# We need C++14 (unfortunately this flag is often ignored)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
-# But that seems to fail sometimes so we also add this flag
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++14 -O0 -fprofile-arcs -ftest-coverage -fno-inline -fno-inline-small-functions -fno-default-inline") #MSVC will ignore these additional flags
+
+#setup the compiler flags
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++14")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++14")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+  message ("Untested compiler, muild might fail.")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+  if(CMAKE_CXX_FLAGS MATCHES "/Wall")
+    string(REGEX REPLACE "/Wall" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+  elseif(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
+    string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+  else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+  endif()
+
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_SCL_SECURE_NO_WARNINGS")
+endif()
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 message ("cxx flags: " ${CMAKE_CXX_FLAGS})
@@ -25,17 +43,19 @@ set(Boost_USE_STATIC_RUNTIME 	OFF)
 find_package(Boost 1.61.0 COMPONENTS program_options date_time serialization chrono) 
 find_package(OpenCL REQUIRED)
 
-INCLUDE_DIRECTORIES(${OpenCL_INCLUDE_DIRS}) 
+#INCLUDE_DIRECTORIES(${OpenCL_INCLUDE_DIRS}) 
+#LINK_DIRECTORIES(${OpenCL_LIBRARY})
 
-LINK_DIRECTORIES(${OpenCL_LIBRARY})
+set (VERSION_NUMBER 0.1)
+
+if (WIN32)
+	set(PLATFORM _WIN32)
+else()
+	set(PLATFORM _LINUX)
+endif()
+
 if(Boost_FOUND AND OpenCL_FOUND)
-	set (VERSION_NUMBER 0.1)
 
-	if (WIN32)
-		set(PLATFORM _WIN32)
-	else()
-		set(PLATFORM _LINUX)
-	endif()
 
 	configure_file (
 	  "${PROJECT_SOURCE_DIR}/cmake/config.h.in" #The template to generate the actual header

@@ -26,7 +26,7 @@ class sspn_member {
   friend class boost::serialization::access;
 
   template <class Archive>
-  void serialize(Archive& ar, const unsigned int version) {
+  void serialize(Archive& ar, const unsigned int /*version*/) {
     ar& full_name;
     ar& birthday;
     ar& first_timer;
@@ -102,7 +102,7 @@ namespace boost {
 namespace serialization {
 
 template <class Archive>
-void serialize(Archive& ar, sspn& s, const unsigned int version) {
+void serialize(Archive& ar, sspn& s, const unsigned int /*version*/) {
   ar& s.official_name;
   ar& s.founded;
   ar& s.members;

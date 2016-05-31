@@ -18,7 +18,7 @@ auto variant_sample() -> void {
   variant_vec.push_back("Hello");
   variant_vec.push_back("World");
   variant_vec.push_back(std::string("A std::string"));
-  variant_vec.push_back(3.14f); // it does not prevent implicit conversion
+  //variant_vec.push_back(3.14f); // it does not prevent implicit conversion (but we get a warning!)
   variant_vec.push_back('c');   // T.T
 
   for (const auto &val : variant_vec) {
