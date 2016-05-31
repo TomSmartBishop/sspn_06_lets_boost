@@ -41,7 +41,6 @@ auto compute_sample1() -> void {
   cout << "Found " << device.name()
        << " as default device\n\nLet's see what else we got...\n";
 
-  uint32_t max_freq = 0;
   for (auto dev : bc::system::devices()) {
     cout << dev.name() << ":\n\t\t" << dev.clock_frequency() / 1000.0f << " GHz, "
          << dev.compute_units() << " units, driver: " << dev.driver_version() << "\n";

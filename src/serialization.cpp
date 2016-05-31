@@ -10,9 +10,11 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
-// needed if you want to serialize the date object
-#include <boost/date_time/gregorian/greg_serialize.hpp>
 #include <boost/date_time/gregorian/gregorian.hpp>
+// needed if you want to serialize the date object
+// (and there is a known boost bug that this header
+// needs to be included AFTER gregorian.hpp)
+#include <boost/date_time/gregorian/greg_serialize.hpp>
 
 #include <boost/serialization/vector.hpp>
 
