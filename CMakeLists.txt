@@ -69,8 +69,8 @@ if(Boost_FOUND AND OpenCL_FOUND)
 	message ("-- Using OpenCL: " ${OpenCL_VERSION_STRING})
 
 elseif(NOT OpenCL_FOUND)
-    error("Could not find opencl")
+  message(FATAL_ERROR "Could not find opencl")
 else()
-	error("Could not find boost")
+  message(FATAL_ERROR "Could not find boost")
 endif()
 
