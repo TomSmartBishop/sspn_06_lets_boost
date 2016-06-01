@@ -78,7 +78,7 @@ auto main(int argc, char *argv[]) -> int // the C++ standard defines that the
   if (vm.count("help")) {
     cout << desc << "\n";
     return 0;
-  } else if (vm.count("display-int")) {
+  } else if (vm.count("display")) {
     cout << "You set the number to " << int_val << ".\n";
   } else if (vm.count("sample")) {
     for (const auto &sample : vm["sample"].as<vector<string>>()) {

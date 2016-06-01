@@ -146,21 +146,10 @@ auto signals2_sample4() -> void {
   // outputs
 }
 
-auto signals2_sample5() -> void {
-  // we can also disconnect slots
-  cout << "\n\n<Signals2 Sample5 disconnect slots>";
-
-  signal<float32_t(float32_t, float32_t)> sig;
-
-  sig.connect(&calc_square_length);
-  sig.connect(&calc_length);
-}
-
 // just run all samples
 auto signals2_sample() -> void {
   signals2_sample1();
   signals2_sample2();
   signals2_sample3();
   signals2_sample4();
-  signals2_sample5();
 }
