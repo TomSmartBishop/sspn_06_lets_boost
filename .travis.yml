@@ -1,6 +1,11 @@
 language: c++
 sudo: required
 
+before_script:
+  - sudo apt-get update -qq
+  - sudo apt-get install libboost-all-dev
+  - sudo apt-get install fglrx opencl-headers
+  
 matrix:
   include:
     - os: linux
@@ -42,7 +47,7 @@ script:
   - mkdir build
   - cd build
   - cmake .. && make
-  - ./cpp_test
+  - ./lets_boost -s lexical_cast signals2 serialization any variant compute
   - ls -al
   - ls ../*
   - gcov main.cpp 
@@ -51,5 +56,5 @@ after_success:
   - bash <(curl -s https://codecov.io/bash)
 
 notifications:
-  email: true
+  email: false
 
